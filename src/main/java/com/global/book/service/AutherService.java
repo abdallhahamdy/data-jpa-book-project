@@ -28,6 +28,10 @@ public class AutherService {
         return autherRepo.save(entity);
     }
 
+    public List<Auther> insertAll(List<Auther> entities) {
+        return autherRepo.saveAll(entities);
+    }
+
     public Auther update(Auther entity) {
 
         Auther auther = findById(entity.getId());

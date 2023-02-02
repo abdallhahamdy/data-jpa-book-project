@@ -1,7 +1,10 @@
 package com.global.book.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
 import javax.persistence.*;
 
+@NamedEntityGraph(name = "loadAuther", attributeNodes = @NamedAttributeNode("auther"))
 @Entity
 @Table(name = "books")
 public class Book {
@@ -14,8 +17,9 @@ public class Book {
 
     private double price;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "auther_id")
+    @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
     private Auther auther;
 
     public Long getId() {
@@ -48,5 +52,14 @@ public class Book {
 
     public void setAuther(Auther auther) {
         this.auther = auther;
+    }
+
+    @Override
+    public String toString() {
+        return "Book{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                ", price=" + price +
+                '}';
     }
 }
