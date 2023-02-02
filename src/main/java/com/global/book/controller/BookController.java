@@ -49,4 +49,9 @@ public class BookController {
         bookService.deleteById(id);
         return ResponseEntity.ok(null);
     }
+
+    @DeleteMapping("/auther/{id}")
+    public ResponseEntity<?> deleteByAutherId(@PathVariable Long id) {
+        return ResponseEntity.ok(bookService.deleteByAutherId(id));
+    }
 }
