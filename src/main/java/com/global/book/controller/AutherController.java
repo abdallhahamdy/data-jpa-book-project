@@ -26,13 +26,13 @@ public class AutherController {
         return ResponseEntity.ok(autherService.findAll());
     }
 
-    @PostMapping("insert")
+    @PostMapping()
     public ResponseEntity<?> insert(@RequestBody Auther entity) {
         return ResponseEntity.ok(autherService.insert(entity));
     }
 
-    @PutMapping("")
-    public ResponseEntity<?> update(Auther entity) {
+    @PutMapping()
+    public ResponseEntity<?> update(@RequestBody Auther entity) {
         return ResponseEntity.ok(autherService.update(entity));
     }
 

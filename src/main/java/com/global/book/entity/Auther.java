@@ -1,11 +1,13 @@
 package com.global.book.entity;
 
 import com.fasterxml.jackson.annotation.JsonManagedReference;
+import com.global.book.Base.BaseEntity;
 import org.hibernate.annotations.Formula;
 import org.springframework.data.annotation.CreatedBy;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedBy;
 import org.springframework.data.annotation.LastModifiedDate;
+import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
@@ -14,11 +16,7 @@ import java.util.List;
 
 @Entity
 @Table(name = "authers")
-public class Auther {
-
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+public class Auther extends BaseEntity<Long> {
 
     private String name;
 
@@ -29,22 +27,12 @@ public class Auther {
     @OneToMany(mappedBy = "auther")
     private List<Book> books = new ArrayList<>();
 
-
-
     public void addBook(Book book) {
         books.add(book);
     }
 
     public void removeBook(Book book) {
         books.add(book);
-    }
-
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
     }
 
     public String getName() {
@@ -70,4 +58,6 @@ public class Auther {
     public void setBookCount(long bookCount) {
         this.bookCount = bookCount;
     }
+
+
 }
