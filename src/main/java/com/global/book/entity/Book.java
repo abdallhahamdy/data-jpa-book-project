@@ -2,6 +2,7 @@ package com.global.book.entity;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import org.hibernate.annotations.Formula;
 
 import javax.persistence.*;
 
@@ -17,6 +18,12 @@ public class Book {
     private String name;
 
     private double price;
+
+    @Transient
+    private double discounted;
+
+    @Formula("(select count(*) from books)")
+    private long bookCount;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "auther_id")
@@ -53,6 +60,28 @@ public class Book {
 
     public void setAuther(Auther auther) {
         this.auther = auther;
+    }
+
+    public double getDiscounted() {
+        return price * .25;
+    }
+
+    public void setDiscounted(double discounted) {
+        this.discounted = discounted;
+    }
+
+    @PostLoad
+    private void calcDiscount() {
+
+        this.setDiscounted(price * .25);
+    }
+
+    public long getBookCount() {
+        return bookCount;
+    }
+
+    public void setBookCount(long bookCount) {
+        this.bookCount = bookCount;
     }
 
     @Override

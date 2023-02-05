@@ -17,6 +17,10 @@ public class AutherService {
         return autherRepo.findById(id).orElseThrow();
     }
 
+    public Auther getById(Long id) {
+        return autherRepo.getById(id);
+    }
+
     public List<Auther> findAll() {
         return autherRepo.findAll();
     }
