@@ -3,11 +3,20 @@ package com.global.book.entity;
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.global.book.Base.BaseEntity;
 import org.hibernate.annotations.Formula;
+import org.hibernate.annotations.SQLDelete;
+import org.hibernate.annotations.Where;
+
 import javax.persistence.*;
-import javax.validation.constraints.Max;
-import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
 
+//NamedStoredProcedureQuery
+@NamedStoredProcedureQuery(name = "Book.getBookByAuther",
+        procedureName = "GET_BOOK_BY_AUTHER", parameters = {
+        @StoredProcedureParameter(mode = ParameterMode.IN, name = "auther_id_in", type = String.class),
+        @StoredProcedureParameter(mode = ParameterMode.OUT, name = "book_count", type = Integer.class)})
+
+@SQLDelete(sql = "update books set is_deleted = true where id = ?")
+@Where(clause = "is_deleted = false")
 @NamedEntityGraph(name = "loadAuther", attributeNodes = @NamedAttributeNode("auther"))
 @Entity
 @Table(name = "books")
