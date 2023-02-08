@@ -1,15 +1,23 @@
 package com.global.book.entity;
 
 import javax.persistence.*;
+import javax.validation.constraints.Max;
+import javax.validation.constraints.Min;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 
 public class BookDTO {
 
     private Long id;
 
+    @NotBlank
     private String name;
 
+    @Min(value = 5)
+    @Max(value = 500)
     private double price;
 
+    @NotNull
     private Auther auther;
 
     public Auther getAuther() {

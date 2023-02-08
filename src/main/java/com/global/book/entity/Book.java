@@ -4,14 +4,20 @@ import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.global.book.Base.BaseEntity;
 import org.hibernate.annotations.Formula;
 import javax.persistence.*;
+import javax.validation.constraints.Max;
+import javax.validation.constraints.Min;
+import javax.validation.constraints.NotNull;
 
 @NamedEntityGraph(name = "loadAuther", attributeNodes = @NamedAttributeNode("auther"))
 @Entity
 @Table(name = "books")
 public class Book extends BaseEntity<Long> {
 
+    @NotNull(message="Should be enter book name")
     private String name;
 
+//    @Min(value = 5)
+//    @Max(value = 500)
     private double price;
 
     @Transient
@@ -20,9 +26,10 @@ public class Book extends BaseEntity<Long> {
     @Formula("(select count(*) from books)")
     private long bookCount;
 
+    @NotNull
+    @JsonBackReference
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "auther_id")
-    @JsonBackReference
     private Auther auther;
 
     public String getName() {

@@ -24,8 +24,20 @@ public interface BookRepo extends BaseRepository<Book, Long> {
     @EntityGraph(attributePaths = {"auther"})
     List<Book> findAll();
 
+    @EntityGraph(attributePaths = {"auther"})
+    @Query("select book from Book book join book.auther auther where "
+            + " (:name is null or book.name like :name)"
+            + " and (:price is null or book.price >= :price)"
+            + " and (:autherId is null or auther.id = autherId)")
+    List<Book> filter(String name, double price, Long autherId);
+
     @Transactional
     @Modifying
     @Query("delete from Book where auther.id = :id")
     int deleteByAutherId(Long id);
+
+//    @Transactional
+//    @Query(value = "UPDATE Book b SET b.isDeleted = false WHERE b.auther.id = ?1")
+//    @Modifying
+//    public void restoreByAuthorId(Long autherId);
 }

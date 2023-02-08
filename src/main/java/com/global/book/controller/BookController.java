@@ -7,6 +7,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
+
 @RestController
 @RequestMapping("/book")
 public class BookController {
@@ -34,13 +36,19 @@ public class BookController {
         return ResponseEntity.ok(bookService.findAll());
     }
 
-    @PostMapping("insert")
-    public ResponseEntity<?> insert(@RequestBody Book entity) {
-        return ResponseEntity.ok(bookService.insert(entity));
+    @PostMapping()
+    public ResponseEntity<?> insert(@RequestBody @Valid BookDTO dto) {
+
+        Book book = new Book();
+        book.setName(dto.getName());
+        book.setPrice(dto.getPrice());
+        book.setAuther(dto.getAuther());
+
+        return ResponseEntity.ok(bookService.insert(book));
     }
 
-    @PutMapping("")
-    public ResponseEntity<?> update(Book entity) {
+    @PutMapping()
+    public ResponseEntity<?> update(@RequestBody @Valid  Book entity) {
         return ResponseEntity.ok(bookService.update(entity));
     }
 

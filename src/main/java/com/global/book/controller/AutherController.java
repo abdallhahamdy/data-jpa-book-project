@@ -1,14 +1,19 @@
 package com.global.book.controller;
 
 import com.global.book.entity.Auther;
-import com.global.book.repository.AutherRepo;
+import com.global.book.entity.AutherSearch;
 import com.global.book.service.AutherService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
+import javax.validation.Valid;
+import javax.validation.constraints.Max;
+import javax.validation.constraints.Min;
 
+
+@Validated
 @RestController
 @RequestMapping("/auther")
 public class AutherController {
@@ -17,7 +22,7 @@ public class AutherController {
     private AutherService autherService;
 
     @GetMapping("/{id}")
-    public ResponseEntity<?> findById(@PathVariable Long id) {
+    public ResponseEntity<?> findById(@PathVariable @Min(value = 10) @Max(value = 200) Long id) {
         return ResponseEntity.ok(autherService.findById(id));
     }
 
@@ -27,12 +32,12 @@ public class AutherController {
     }
 
     @PostMapping()
-    public ResponseEntity<?> insert(@RequestBody Auther entity) {
+    public ResponseEntity<?> insert(@RequestBody @Valid Auther entity) {
         return ResponseEntity.ok(autherService.insert(entity));
     }
 
     @PutMapping()
-    public ResponseEntity<?> update(@RequestBody Auther entity) {
+    public ResponseEntity<?> update(@RequestBody @Valid Auther entity) {
         return ResponseEntity.ok(autherService.update(entity));
     }
 
@@ -40,5 +45,11 @@ public class AutherController {
     public ResponseEntity<?> deleteById(@PathVariable Long id) {
         autherService.deleteById(id);
         return ResponseEntity.ok(null);
+    }
+
+    @PostMapping("/spec")
+    public ResponseEntity<?> findByAutherSpec(@RequestBody AutherSearch search){
+
+        return ResponseEntity.ok(autherService.findByAutherSpec(search));
     }
 }
