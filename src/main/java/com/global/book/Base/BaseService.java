@@ -1,9 +1,11 @@
 package com.global.book.Base;
 
+import com.global.book.error.RecordNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import javax.persistence.MappedSuperclass;
 import java.util.List;
+import java.util.Optional;
 
 @MappedSuperclass
 public class BaseService <T extends BaseEntity<ID>, ID extends Number> {
@@ -12,7 +14,13 @@ public class BaseService <T extends BaseEntity<ID>, ID extends Number> {
     private BaseRepository<T, ID> baseRepository;
 
     public T findById(ID id) {
-        return baseRepository.findById(id).orElseThrow();
+
+        Optional<T> entity = baseRepository.findById(id);
+        if (entity.isPresent()) {
+            return entity.get();
+        } else {
+            throw new RecordNotFoundException("This Record with id:- " + id + " not found");
+        }
     }
 
     public T getById(ID id) {

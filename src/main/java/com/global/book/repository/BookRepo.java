@@ -43,16 +43,4 @@ public interface BookRepo extends BaseRepository<Book, Long> {
 //    @Modifying
 //    public void restoreByAuthorId(Long autherId);
 
-    //Map a Stored Procedure Name Directly
-    @Procedure
-    int GET_BOOK_BY_AUTHER(String auther_id_in);
-
-    @Procedure("GET_BOOK_BY_AUTHER")
-    int getTotalCarsByModel(String auther_id_in);
-
-    int getBookByAuther(String auther_id_in);
-
-    //Stored Procedure with @Query Annotation
-    @Query(value = "CALL GET_BOOK_BY_AUTHER(:auther_id_in);", nativeQuery = true)
-    List<Book> findCarsAfterYear(@Param("auther_id_in") Integer year_in);
 }

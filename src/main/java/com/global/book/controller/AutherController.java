@@ -22,7 +22,7 @@ public class AutherController {
     private AutherService autherService;
 
     @GetMapping("/{id}")
-    public ResponseEntity<?> findById(@PathVariable @Min(value = 10) @Max(value = 200) Long id) {
+    public ResponseEntity<?> findById(@PathVariable Long id) {
         return ResponseEntity.ok(autherService.findById(id));
     }
 
